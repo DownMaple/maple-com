@@ -53,8 +53,10 @@
               <my-el-select
                   class="dt-input"
                   :full-name="item.fullName"
+                  :get-select-enum-a-p-i="item.fullNameFun ?? function () {}"
                   :option-url="item.optionUrl"
                   :option-date="item.optionDate"
+                  :get-options-a-p-i="item.optionUrlFun  ?? function () {}"
                   :extra-options="item.extraOptions"
                   :placeholder="item.placeholder ??  '请选择'  + item.label"
                   v-model="search[item.value]"

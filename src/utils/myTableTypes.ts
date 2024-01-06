@@ -86,11 +86,14 @@ export interface SearchItemType {
   delay?: boolean,
   /** fullName 获取字典 select option 的请求参数 */
   fullName?: string,
+  /** fullNameFun 获取字典 select option 的请求方法*/
+  fullNameFun?: Function,
   /** optionUrl 获取 非字典 option 的 请求路径 */
   optionUrl?: string,
   /** optionDate 获取 非字典 option 的 请求参数 */
   optionDate?: object,
   /** valueKey 选择项选择后返回的值： true 返回 title，false：返回id */
+  optionUrlFun?: any,
   valueKey?: boolean,
   /** slot         是否需要插槽， 若是使用插槽，上述设置全部失效  */
   slot?: string,

@@ -31,6 +31,7 @@
 <script setup lang="ts">
 import { onMounted, PropType, ref } from 'vue'
 import { SelectOptionsItemType } from '../utils/myTableTypes'
+import { toTreeList } from '../utils/packageUtils.ts'
 
 const prop = defineProps({
   modelValue: [String, Number],
@@ -46,8 +47,7 @@ const prop = defineProps({
   },
   // 请求 options 列表 参数体
   optionDate: {
-    type: Object,
-    default: {}
+    type: [Object, Array]
   },
   // 选项懒加载
   delay: {
@@ -76,12 +76,16 @@ const prop = defineProps({
     default: false
   },
   getOptionsAPI: {
-    type: Function as PropType<(optionUrl: string, optionDate: {}) => Promise<any>>,
-    default: {}
+    type: Function,
+    default: () => {}
   },
   getSelectEnumAPI: {
-    type: Function as PropType<(fullName: string) => Promise<any>>,
-    default: {}
+    type: Function ,
+    default: () => {}
+  },
+  isTreeData: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -104,7 +108,7 @@ const init = async () => {
       loading.value = false
       if (res) {
         // 过滤掉重复选项，优先渲染extraOptions
-        options.value = res.data.filter((item: any) => {
+        let data = options.value = res.data.list.filter((item: any) => {
           let exit = false
           // 过滤掉后端预留的无用未知选项
           prop.extraOptions.map((extra) => {
@@ -114,14 +118,15 @@ const init = async () => {
           })
           return !exit
         })
+        options.value = prop.isTreeData ? toTreeList(data) : data
       }
-    } else if (prop.optionUrl) {
+    } else if (prop.getOptionsAPI) {
       loading.value = true
-      let { data: res } = await prop.getOptionsAPI(prop.optionUrl, prop.optionDate) // 接口提供的选项数据
+      let { data: res } = await prop.getOptionsAPI(prop.optionDate) // 接口提供的选项数据
       loading.value = false
       if (res) {
         // 过滤掉重复选项，优先渲染extraOptions
-        options.value = res.data.filter((item: any) => {
+        let data = options.value = res.data.list.filter((item: any) => {
           let exit = false
           // 过滤掉后端预留的无用未知选项
           prop.extraOptions.map((extra) => {
@@ -131,6 +136,7 @@ const init = async () => {
           })
           return !exit
         })
+        options.value = prop.isTreeData ? toTreeList(data) : data
       }
     } else {
       options.value = prop.extraOptions

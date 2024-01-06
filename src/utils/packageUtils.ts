@@ -90,3 +90,26 @@ export function clearObjectEmpty(info: any) {
   Object.assign(info, obj)
 }
 
+/**
+ * 转为树形结构
+ * @param data
+ */
+export function toTreeList(data: Array<any>) {
+  const newData: any = []
+  const map: any = {}
+  if (data?.length !== 0) {
+    data.forEach((item) => {
+      map[item.id] = item
+    })
+    data.forEach((item) => {
+      const parent = map[item.parentId]
+      if (item.parentId === '0') {
+        newData.push(item)
+      } else {
+        (parent.children || (parent.children = [])).push(item)
+      }
+    })
+  }
+  return newData
+}
+

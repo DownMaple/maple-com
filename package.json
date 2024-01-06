@@ -1,6 +1,6 @@
 {
   "name": "maple-com",
-  "version": "0.0.5",
+  "version": "0.0.9",
   "type": "module",
   "files": [
     "dist"
@@ -11,8 +11,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "publish": "npm publish"
   },
+  "keywords": ["二次封装", "element-plus", "vue3"],
   "dependencies": {
     "element-plus": "^2.4.4",
     "vue": "^3.3.11"
