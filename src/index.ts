@@ -4,12 +4,13 @@ import MyElSelect from './myElSelect'
 import uploadFile from './uploadFile'
 import uploadPhoto from './uploadPhoto'
 import uploadImage from './uploadImage'
+import myWangEditor from './WangEditor'
 import {TableOptionsType,ColumnType, SearchItemType, SelectOptionsItemType, TableSearchItemType , TablePageType } from './utils/myTableTypes'
 import { deepCopy } from './utils/deepCopy.ts'
-const components = [MyTable, SelectIcon, MyElSelect, uploadFile, uploadPhoto, uploadImage ]
+const components = [MyTable, SelectIcon, MyElSelect, uploadFile, uploadPhoto, uploadImage , myWangEditor ]
 
 export { deepCopy }
-export { MyTable, SelectIcon, MyElSelect, uploadFile, uploadPhoto, uploadImage }
+export { MyTable, SelectIcon, MyElSelect, uploadFile, uploadPhoto, uploadImage, myWangEditor }
 export type { TableOptionsType, ColumnType, SearchItemType, SelectOptionsItemType, TableSearchItemType, TablePageType }
 
 

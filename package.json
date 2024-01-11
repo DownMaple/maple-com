@@ -1,6 +1,6 @@
 {
   "name": "maple-com",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "type": "module",
   "files": [
     "dist"
@@ -14,21 +14,26 @@
     "preview": "vite preview",
     "publish": "npm publish"
   },
-  "keywords": ["二次封装", "element-plus", "vue3"],
+  "keywords": [
+    "二次封装",
+    "element-plus",
+    "vue3"
+  ],
   "dependencies": {
     "element-plus": "^2.4.4",
     "vue": "^3.3.11"
   },
   "devDependencies": {
+    "@element-plus/icons-vue": "^2.1.0",
     "@types/node": "^20.10.5",
     "@vitejs/plugin-vue": "^4.5.2",
+    "@wangeditor/editor-for-vue": "^5.1.12",
     "element-plus": "^2.4.4",
     "sass": "^1.69.6",
     "ts-morph": "^21.0.1",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
     "vite-plugin-dts": "^3.7.0",
-    "vue-tsc": "^1.8.25",
-    "@element-plus/icons-vue": "^2.1.0"
+    "vue-tsc": "^1.8.25"
   }
 }
