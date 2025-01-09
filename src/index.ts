@@ -7,9 +7,10 @@ import uploadImage from './uploadImage'
 import myWangEditor from './WangEditor'
 import {TableOptionsType,ColumnType, SearchItemType, SelectOptionsItemType, TableSearchItemType , TablePageType } from './utils/myTableTypes'
 import { deepCopy } from './utils/deepCopy.ts'
+import { isAllEmpty } from './utils/isAllEmpty.ts'
 const components = [MyTable, SelectIcon, MyElSelect, uploadFile, uploadPhoto, uploadImage , myWangEditor ]
 
-export { deepCopy }
+export { deepCopy, isAllEmpty }
 export { MyTable, SelectIcon, MyElSelect, uploadFile, uploadPhoto, uploadImage, myWangEditor }
 export type { TableOptionsType, ColumnType, SearchItemType, SelectOptionsItemType, TableSearchItemType, TablePageType }
 

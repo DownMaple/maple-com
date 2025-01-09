@@ -2,9 +2,7 @@
 </script>
 
 <template>
-  <div>
-    app
-  </div>
+  <div>app</div>
 </template>
 
 <style scoped>
