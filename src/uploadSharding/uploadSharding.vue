@@ -181,7 +181,19 @@ function updateUploadProgress(data: any) {
 function uploadPreview() {
   if (fileValue.value) {
     if (fileValue.value.status === 'success') {
-      dowLoadFile({}, downloadFileUrl + fileValue.value.pathUrl, fileValue.value.name)
+      let downloadFileUrlStr = downloadFileUrl ? downloadFileUrl : ''
+      // 将反斜杠替换为正斜杠
+      const normalizedPathUrl = fileValue.value.pathUrl.replace(/\\/g, '/');
+
+      // 确保 normalizedPathUrl 以斜杠结尾
+      const normalizedBaseUrl = downloadFileUrlStr.endsWith('/') ? downloadFileUrl : downloadFileUrl + '/';
+
+      // 确保 normalizedPathUrl 不以斜杠开头
+      const finalPathUrl = normalizedPathUrl.startsWith('/') ? normalizedPathUrl.slice(1) : normalizedPathUrl;
+
+      // 拼接最终的 URL
+      const fullUrl = normalizedBaseUrl + finalPathUrl;
+      dowLoadFile({}, fullUrl, fileValue.value.name)
     } else {
       showWarn('请等待文件上传完成')
     }
