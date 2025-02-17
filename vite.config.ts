@@ -1,15 +1,16 @@
-import { defineConfig } from 'vite'
+import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
+import {resolve} from 'path'
 import dtsPlugin from 'vite-plugin-dts'
+import vueJsxPlugin from '@vitejs/plugin-vue-jsx';
 
 export default defineConfig({
   plugins: [
     vue(),
+    vueJsxPlugin(),
     dtsPlugin({
       cleanVueFileName: true,
-      skipDiagnostics: true,
-      include: ['src/**/*.ts', 'src/**/*.vue'],
+      include: ['src/**/*.ts', 'src/**/*.vue', 'src/**/*.tsx', 'src/**/*.jsx'],
       outDir: 'dist'
     })
   ],
@@ -25,22 +26,15 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
-        'vue', 
-        'element-plus', 
-        '@element-plus/icons-vue', 
+        'vue',
+        'element-plus',
+        '@element-plus/icons-vue',
         '@wangeditor/editor-for-vue'
       ],
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
             return 'vendor';
-          }
-        },
-        // 压缩配置
-        terserOptions: {
-          compress: {
-            drop_console: true,
-            drop_debugger: true
           }
         },
         globals: {

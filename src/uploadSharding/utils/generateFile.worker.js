@@ -63,3 +63,4 @@ function calculateHash(chunk) {
     reader.readAsArrayBuffer(chunk);
   });
 }
+

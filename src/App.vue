@@ -1,26 +1,34 @@
 <script setup lang="ts">
-import UploadSharding from './uploadSharding/uploadSharding.vue';
-import {ref, watchEffect} from 'vue';
 
-const fileList = ref([])
+import {ref} from 'vue';
 
-watchEffect(() => {
-  console.log(fileList.value)
-})
+import MyLoading, {vMyLoading} from './myLoading';
+import {globalLoading} from './myLoading/globalLoading.ts';
+
+const loading = ref(true)
+
+function globalLoadingFun() {
+  globalLoading.show()
+  setTimeout(() => {
+    globalLoading.hide()
+  }, 2000)
+}
+
 </script>
 
 <template>
-  <div>
-    <upload-sharding
-        v-model="fileList"
-        test-hash-url="http://localhost:8080/upload/status"
-        upload-url="http://localhost:8080/upload/chunk"
-        merge-file-url="http://localhost:8080/upload/merge"
-        download-file-url="http://localhost:8080"
-    >
-    </upload-sharding>
+  <div >
+    <div v-my-loading="loading" class="test-box">测试内容</div>
+    <MyLoading @click="loading=!loading"></MyLoading>
+    <button @click="globalLoadingFun">展示全局loading</button>
   </div>
 </template>
 
 <style scoped>
+.test-box {
+  width: 100px;
+  height: 100px;
+  color: #409eff;
+  background-color: #dcdfe5;
+}
 </style>
