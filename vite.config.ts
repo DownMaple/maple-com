@@ -14,6 +14,13 @@ export default defineConfig({
       outDir: 'dist'
     })
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler'
+      }
+    }
+  },
   build: {
     emptyOutDir: true, // 清空输出目录
     minify: 'terser',
@@ -44,5 +51,8 @@ export default defineConfig({
         exports: "named"
       }
     }
+  },
+  server: {
+    port: 3303
   }
 })
