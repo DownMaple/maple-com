@@ -58,7 +58,9 @@ const props = defineProps({
     }
   }
 })
-const emit = defineEmits()
+const emit = defineEmits<{
+  'update:modelValue': [value: any]
+}>()
 
 const fileList = ref<any[]>([])
 const disabled = ref(false)

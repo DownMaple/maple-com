@@ -92,7 +92,7 @@ const prop = defineProps({
 const emit = defineEmits([
   'input',
   'change',
-  'modelValue:update'
+  'update:modelValue'
 ])
 
 const select = ref()
@@ -108,15 +108,8 @@ const init = async () => {
       loading.value = false
       if (res) {
         // 过滤掉重复选项，优先渲染extraOptions
-        let data = options.value = res.data.list.filter((item: any) => {
-          let exit = false
-          // 过滤掉后端预留的无用未知选项
-          prop.extraOptions.map((extra) => {
-            if (item.id === extra.id) {
-              exit = true
-            }
-          })
-          return !exit
+        const data = res.data.list.filter((item: any) => {
+          return !prop.extraOptions.some((extra) => item.id === extra.id)
         })
         options.value = prop.isTreeData ? toTreeList(data) : data
       }
@@ -126,15 +119,8 @@ const init = async () => {
       loading.value = false
       if (res) {
         // 过滤掉重复选项，优先渲染extraOptions
-        let data = options.value = res.data.list.filter((item: any) => {
-          let exit = false
-          // 过滤掉后端预留的无用未知选项
-          prop.extraOptions.map((extra) => {
-            if (item.id === extra.id) {
-              exit = true
-            }
-          })
-          return !exit
+        const data = res.data.list.filter((item: any) => {
+          return !prop.extraOptions.some((extra) => item.id === extra.id)
         })
         options.value = prop.isTreeData ? toTreeList(data) : data
       }
@@ -145,7 +131,7 @@ const init = async () => {
 }
 
 const handleChange = (val: any) => {
-  emit('modelValue:update', val)
+  emit('update:modelValue', val)
   // console.log(prop.modelValue)
   // console.log(val)
   // try {
@@ -160,13 +146,7 @@ const handleChange = (val: any) => {
 
 const filterExtraOptions = () => {
   return prop.extraOptions.filter((extra) => {
-    let exit = false
-    options.value.map((item) => {
-      if (item.id === extra.id) {
-        exit = true
-      }
-    })
-    return !exit
+    return !options.value.some((item) => item.id === extra.id)
   })
 }
 

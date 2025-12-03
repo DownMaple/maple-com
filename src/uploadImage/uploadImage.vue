@@ -62,7 +62,9 @@ const props = defineProps({
     default: 'string'
   }
 })
-const emit = defineEmits()
+const emit = defineEmits<{
+  'update:modelValue': [value: any]
+}>()
 
 const dialogImageUrl = ref('')
 const dialogVisible = ref(false)

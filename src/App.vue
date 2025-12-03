@@ -1,20 +1,5 @@
 <script setup lang="ts">
-
-import {ref} from 'vue';
-
-import MyLoading, {vMyLoading} from './myLoading';
-import {globalLoading} from './myLoading/globalLoading.ts';
 import MyDrag from './myDrag';
-
-const loading = ref(true)
-
-function globalLoadingFun() {
-  globalLoading.show()
-  setTimeout(() => {
-    globalLoading.hide()
-  }, 2000)
-}
-
 </script>
 
 <template>

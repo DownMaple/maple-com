@@ -72,8 +72,6 @@ export const showAsk = (msg: string = "是否继续进行操作", confirm: Funct
         cancel()
       }
     }
-  }).then(r => {
-    console.log(r)
   })
 }
 

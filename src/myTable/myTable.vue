@@ -17,7 +17,7 @@
         <slot name="tableBtnGroup">
           <el-button
               v-if="isButtonFun('add')"
-              @click="emit('addMassage')"
+              @click="emit('addMessage')"
               type="primary"
               icon="Plus"
               plain
@@ -118,7 +118,7 @@
                 <el-checkbox-group
                     class="table-group-box"
                     v-model="dynamicColumns as any[]"
-                    :change="handleCheckedCitiesChange"
+                    @change="handleCheckedCitiesChange"
                 >
                   <div v-for="(item, index) in props.options.tableColumns" :key="index">
                     <el-checkbox :label="item">{{ item.label }}</el-checkbox>
@@ -140,8 +140,8 @@
         :data="props.data"
         :header-cell-style="tableHeaderCellStyle"
         v-loading="tableLoading"
-        @select='selectTableData'
-        @select-all='selectTableDataAll'
+        @select='handleTableSelection'
+        @select-all='handleTableSelection'
     >
       <template v-for="column in dynamicColumns" >
         <el-table-column
@@ -157,11 +157,9 @@
             :show-overflow-tooltip="column.showOverflowTooltip || false"
             class="my-table-column"
         >
-          <template v-if="column.slot" #default="scope">
-            <slot :name="column.slot" :rowData="scope.row" :index="scope.$index"></slot>
-          </template>
-          <template v-if="column.formatter" #default="scope">
-            {{column.formatter(scope.row)}}
+          <template v-if="column.slot || column.formatter" #default="scope">
+            <slot v-if="column.slot" :name="column.slot" :rowData="scope.row" :index="scope.$index"></slot>
+            <template v-else-if="column.formatter">{{ column.formatter(scope.row) }}</template>
           </template>
         </el-table-column>
       </template>
@@ -205,14 +203,14 @@ const props = defineProps({
   },
   page: {
     type: Object as PropType<TablePageType>,
-    default: {
+    default: () => ({
       pageNum: 1,
       pageSize: 10,
       total: 0,
       pageSizes: [10, 20, 30, 40, 50, 100],
       LastPageNum: 1,
       LastPageSize: 10
-    }
+    })
   },
   isPage: {
     type: Boolean,
@@ -226,15 +224,10 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-  buttonArray: {
-    type: Array,
-    // eslint-disable-next-line vue/require-valid-default-prop
-    default: ['add', 'export']
-  }
 })
 const emit = defineEmits([
   'pageOperate',
-  'addMassage',
+  'addMessage',
   'exportMessage',
   'importMessage',
   'deleteMessage',
@@ -243,7 +236,7 @@ const emit = defineEmits([
 ])
 const tableLoading = ref(false)
 const tableFullScreen = ref(false)
-const tableSize = ref<any>('default')
+const tableSize = ref<'large' | 'default' | 'small'>('default')
 const pageElTableRef = ref()
 const selectIdArr = ref<string[] | number[]>([])
 
@@ -258,7 +251,6 @@ function resetEvent() {
   pageData.pageNum = 1
   pageData.pageSize = props.page?.pageSizes[0]
   emit('update:page', pageData)
-  emit('update:page', pageData)
   props.init()
 }
 
@@ -269,7 +261,7 @@ function refreshTable() {
 }
 
 // 更改表格 size
-function toggleTableSize(size: string) {
+function toggleTableSize(size: 'large' | 'default' | 'small') {
   tableSize.value = size
 }
 
@@ -293,14 +285,15 @@ function resetColumnsSelect() {
   checkAll.value = true
 }
 
-// 单挑数据选择
-function selectTableData(selection: any[]) {
-  selectIdArr.value = selection.length != 0 ? (props.options.useKey == 'none' ?  selection : selection.map(item => item[props.options.useKey ?? 'id'])) : []
-}
-
-// 当前页面全选
-function selectTableDataAll(selection: any[]) {
-  selectIdArr.value = selection.length != 0 ? (props.options.useKey == 'none' ?  selection : selection.map(item => item[props.options.useKey ?? 'id'])) : []
+// 表格选择事件处理（单选/全选复用同一逻辑）
+function handleTableSelection(selection: any[]) {
+  if (selection.length === 0) {
+    selectIdArr.value = []
+    return
+  }
+  selectIdArr.value = props.options.useKey === 'none' 
+    ? selection 
+    : selection.map(item => item[props.options.useKey ?? 'id'])
 }
 
 // 重置勾选

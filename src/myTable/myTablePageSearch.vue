@@ -104,22 +104,16 @@ function resetSearch() {
 
 // 是否是时间格式
 function isTimeInput(type: string) {
-  return ['year', 'month', 'date', 'dates', 'datetime', 'week', 'datetimerange', 'daterange', 'monthrange'].indexOf(type) > 0
+  return ['year', 'month', 'date', 'dates', 'datetime', 'week', 'datetimerange', 'daterange', 'monthrange'].includes(type)
 }
 
 // 判断文字是否超出
 const labelItemRefs = ref<Element[]>([])
 
 function isShowToolTip(value: SearchItemType['value'], width: SearchItemType['labelWidth'] = props.defaultLabelWidth) {
-  let is = true
-  if (labelItemRefs.value.length > 0) {
-    labelItemRefs.value.forEach(item => {
-      if (item.id === value) {
-        is = !(item.clientWidth === (parseInt(<string>width) - 12))
-      }
-    })
-  }
-  return is
+  const item = labelItemRefs.value.find(el => el.id === value)
+  if (!item) return true
+  return item.clientWidth !== (parseInt(width as string) - 12)
 }
 </script>
 
